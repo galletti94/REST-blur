@@ -5,8 +5,6 @@ from json import dumps
 import os
 import psycopg2
 from urllib import parse
-import time
-import re
 import hashlib
 
 
