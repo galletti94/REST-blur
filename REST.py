@@ -50,7 +50,7 @@ class Images(Resource):
         cursor = conn.cursor()
         query = 'SELECT * FROM images'
         cursor.execute(query)
-        return {'images': [i[0] for i in cursor.fetchall()]}
+        return {'images': [{"id":i[0], "img":i[1], "label":i[2]} for i in cursor.fetchall()]}
 
     def post(self):
         cursor = conn.cursor()
