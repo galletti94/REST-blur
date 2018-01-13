@@ -50,15 +50,16 @@ class Images(Resource):
         cursor = conn.cursor()
         query = 'SELECT * FROM images'
         cursor.execute(query)
-        return {'images': [{"id":i[0], "img":i[1], "label":i[2]} for i in cursor.fetchall()]}
+        return {'images': [{"id":i[0], "img":i[1], "label":i[2], "type":i[3]} for i in cursor.fetchall()]}
 
     def post(self):
         cursor = conn.cursor()
         img = request.json['img']
-        label = request.json['label']
-        query = 'INSERT INTO images(img, label) VALUES (%s, %s)'
+        img_label = request.json['img_label']
+        img_type = request.json['img_type']
+        query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
         try:
-            cursor.execute(query, (img, label))
+            cursor.execute(query, (img, img_label, img_type))
             conn.commit()
             return {'status':'success'}
         except Exception as e:
