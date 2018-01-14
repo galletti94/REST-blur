@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, abort
 from flask_restful import Resource, Api
 from flask_sqlalchemy import SQLAlchemy
 from json import dumps
@@ -9,10 +9,10 @@ import hashlib
 
 
 app = Flask(__name__)
-app.config['SESSION_TYPE']= 'memcached'
-app.config['SECRET_KEY']= 'super secret key'
+#app.config['SESSION_TYPE']= 'memcached'
+#app.config['SECRET_KEY']= 'super secret key'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api = Api(app)
 db_connect = SQLAlchemy(app)
@@ -58,16 +58,16 @@ class Images(Resource):
         img_label = request.args.get['img_label']
         img_type = request.args.get['img_type']
         query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
-        cursor.execute(query, (img, img_label, img_type))
-        conn.commit()
-        return {'status':'success'}
-
+        try:
+            cursor.execute(query, (img, img_label, img_type))
+            conn.commit()
+            return {'status':'success'}
+        except:
+            abort(400)
 
 api.add_resource(Models_id, '/models_id/')
 api.add_resource(Models_weights, '/models_weights/<model_type>')
 api.add_resource(Images, '/images/')
 
-
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run()
