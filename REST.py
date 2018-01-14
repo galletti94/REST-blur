@@ -53,21 +53,25 @@ class Images(Resource):
         return {'images': [{"id":i[0], "img":i[1], "label":i[2], "type":i[3]} for i in cursor.fetchall()]}
 
     def post(self):
-        cursor = conn.cursor()
-        img = request.args.get['img']
-        img_label = request.args.get['img_label']
-        img_type = request.args.get['img_type']
-        query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
         try:
-            cursor.execute(query, (img, img_label, img_type))
-            conn.commit()
-            return {'status':'success'}
+            cursor = conn.cursor()
+            img = request.args.get['img']
+            img_label = request.args.get['img_label']
+            img_type = request.args.get['img_type']
+            query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
+            try:
+                cursor.execute(query, (img, img_label, img_type))
+                conn.commit()
+                return {'status':'success'}
+            except:
+                abort(400)
         except:
-            abort(400)
-
+            abort(404)
+        
+        
 api.add_resource(Models_id, '/models_id/')
 api.add_resource(Models_weights, '/models_weights/<model_type>')
 api.add_resource(Images, '/images/')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
