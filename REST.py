@@ -50,7 +50,7 @@ class Images(Resource):
         cursor = conn.cursor()
         query = 'SELECT * FROM images'
         cursor.execute(query)
-        return {'images': [{"id":i[0], "img":i[1], "label":i[2], "type":i[3]} for i in cursor.fetchall()]}
+        return {'images': [{"img_id":i[0], "img":i[1], "img_label":i[2], "img_type":i[3]} for i in cursor.fetchall()]}
 
     def post(self):
         try:
@@ -62,7 +62,6 @@ class Images(Resource):
             try:
                 cursor.execute(query, (img, img_label, img_type))
                 conn.commit()
-                return {'status':'success'}
             except:
                 abort(400)
         except:
