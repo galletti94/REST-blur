@@ -70,7 +70,7 @@ class Images(Resource):
         
         
 api.add_resource(Models_id, '/models_id/')
-api.add_resource(Models_weights, '/model/<model_type>')
+api.add_resource(Models_weights, '/model/<string:model_type>')
 api.add_resource(Images, '/images/')
 
 if __name__ == '__main__':
