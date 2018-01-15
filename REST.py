@@ -43,7 +43,7 @@ class Models_weights(Resource):
         cursor = conn.cursor()
         query = 'SELECT * FROM models WHERE model_type= %s'
         cursor.execute(query, (model_type))
-        for item in cursor:
+        for i in cursor:
             res = {"model_id":i[0], "model_type":i[1], "model_activation":i[2], "model_wih":i[3], "model_who":i[4], "model_input_layer":i[5], "model_hidden_layer":i[6], "model_output_layer":i[7]}
             break
         return res
