@@ -55,9 +55,10 @@ class Images(Resource):
     def post(self):
         try:
             cursor = conn.cursor()
-            img = request.args.get['img']
-            img_label = request.args.get['img_label']
-            img_type = request.args.get['img_type']
+            data = request.get_json(silent=True)
+            img = data['img']
+            img_label = data['img_label']
+            img_type = data['img_type']
             query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
             try:
                 cursor.execute(query, (img, img_label, img_type))
