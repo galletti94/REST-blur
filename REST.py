@@ -53,20 +53,14 @@ class Images(Resource):
         return {'images': [{"img_id":i[0], "img":i[1], "img_label":i[2], "img_type":i[3]} for i in cursor.fetchall()]}
 
     def post(self):
-        try:
-            cursor = conn.cursor()
-            data = request.get_json(silent=True)
-            img = data['img']
-            img_label = data['img_label']
-            img_type = data['img_type']
-            query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
-            try:
-                cursor.execute(query, (img, img_label, img_type))
-                conn.commit()
-            except:
-                abort(400)
-        except:
-            abort(404)
+        cursor = conn.cursor()
+        data = request.get_json(silent=True)
+        img = data['img']
+        img_label = data['img_label']
+        img_type = data['img_type']
+        query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
+        cursor.execute(query, (img, img_label, img_type))
+        conn.commit()
         
         
 api.add_resource(Models_id, '/models_id/')
