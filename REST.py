@@ -41,9 +41,12 @@ class Models_id(Resource):
 class Models_weights(Resource):
     def get(self, model_type):
         cursor = conn.cursor()
-        query = 'SELECT model_weights FROM models WHERE model_type= %s'
+        query = 'SELECT * FROM models WHERE model_type= %s'
         cursor.execute(query, (model_type))
-        return {'weights': [i[0] for i in cursor.fetchall()]}
+        for item in cursor:
+            res = {"model_id":i[0], "model_type":i[1], "model_activation":i[2], "model_wih":i[3], "model_who":i[4], "model_input_layer":i[5], "model_hidden_layer":i[6], "model_output_layer":i[7]}
+            break
+        return res
 
 class Images(Resource):
     def get(self):
@@ -67,7 +70,7 @@ class Images(Resource):
         
         
 api.add_resource(Models_id, '/models_id/')
-api.add_resource(Models_weights, '/models_weights/<model_type>')
+api.add_resource(Models_weights, '/model/<model_type>')
 api.add_resource(Images, '/images/')
 
 if __name__ == '__main__':
