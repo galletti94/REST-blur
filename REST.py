@@ -39,8 +39,9 @@ class Models_id(Resource):
 
 
 class Models_weights(Resource):
-    def get(self, model_type):
+    def get(self):
         cursor = conn.cursor()
+        model_type = "digits"
         query = 'SELECT * FROM models WHERE model_type= %s'
         cursor.execute(query, (model_type))
         for i in cursor:
@@ -70,7 +71,7 @@ class Images(Resource):
         
         
 api.add_resource(Models_id, '/models_id/')
-api.add_resource(Models_weights, '/model/<string:model_type>')
+api.add_resource(Models_weights, '/model_digits/')
 api.add_resource(Images, '/images/')
 
 if __name__ == '__main__':
