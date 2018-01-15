@@ -75,23 +75,3 @@ api.add_resource(Images, '/images/')
 
 if __name__ == '__main__':
     app.run(debug=True)
-    
-    cursor = conn.cursor()
-    f = open("wih.txt", 'r')
-    model_wih = f.readlines()
-    f.close()
-    
-    f = open("who.txt", 'r')
-    model_who = f.readlines()
-    f.close()
-    
-    model_type = "digits"
-    model_activation = "sigmoid"
-    model_input_layer = "784"
-    model_hidden_layer = "200"
-    model_output_layer = "10"
-    
-    query = 'INSERT INTO models(model_type, model_activation, model_wih, model_who, model_input_layer, model_hidden_layer, model_output_layer) VALUES (%s, %s, %s, %s, %s, %s, %s)'
-    cursor.execute(query, (model_type, model_activation, model_wih, model_who, model_input_layer, model_hidden_layer, model_output_layer))
-    conn.commit()
-    
