@@ -42,9 +42,9 @@ class Models_weights(Resource):
     def get(self):
         cursor = conn.cursor()
         model_type = "digits"
-        query = 'SELECT * FROM models WHERE model_type=%s'
-        cursor.execute(query, (model_type))
-        for i in cursor:
+        query = 'SELECT * FROM models'
+        cursor.execute(query)
+        for i in cursor.fetchall():
             res = {"model_id":i[0], "model_type":i[1], "model_activation":i[2], "model_wih":i[3], "model_who":i[4], "model_input_layer":i[5], "model_hidden_layer":i[6], "model_output_layer":i[7]}
             break
         return res
