@@ -59,8 +59,12 @@ class Images(Resource):
         img_label = data['img_label']
         img_type = data['img_type']
         query = 'INSERT INTO images(img, img_label, img_type) VALUES (%s, %s, %s)'
-        cursor.execute(query, (img, img_label, img_type))
-        conn.commit()
+        try:
+            cursor.execute(query, (img, img_label, img_type))
+            conn.commit()
+            return {'status':'success'}
+        except:
+            return {'status':'failed'}
         
         
 api.add_resource(Models_id, '/models_id/')
